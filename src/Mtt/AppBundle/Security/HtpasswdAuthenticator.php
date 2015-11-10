@@ -28,9 +28,7 @@ class HtpasswdAuthenticator implements SimpleFormAuthenticatorInterface
             throw new AuthenticationException('Invalid username or password');
         }
 
-        $passwordValid = $this->checkPassword($user, $token->getCredentials());
-
-        if ($passwordValid) {
+        if ($this->checkPassword($user, $token->getCredentials())) {
             return new UsernamePasswordToken(
                 $user,
                 $user->getPassword(),
