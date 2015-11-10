@@ -5,12 +5,14 @@ security:
         Symfony\Component\Security\Core\User\User: plaintext
 
     providers:
-        in_memory:
-            memory:
-                users:
-                    goblin:
-                        password: pass
-                        roles: 'ROLE_USER'
+#        in_memory:
+#            memory:
+#                users:
+#                    goblin:
+#                        password: pass
+#                        roles: 'ROLE_USER'
+        htpasswd:
+            id: htpasswd_user_provider
 
     firewalls:
         dev:
