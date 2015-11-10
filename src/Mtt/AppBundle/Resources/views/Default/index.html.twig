@@ -1,5 +1,17 @@
 {% extends "::base.html.twig" %}
 
 {% block body %}
-    Hello World!
+    <p>Hello World!</p>
+    <ul>
+        <li>
+            <a href="{{ path('mtt_app_secure_index') }}">Secured Area</a>
+        </li>
+        <li>
+            {% if app.user %}
+                ({{ app.user.username }}) <a href="{{ path('logout_route') }}">Logout</a>
+            {% else %}
+                <a href="{{ path('login_route') }}">Login</a>
+            {% endif %}
+        </li>
+    </ul>
 {% endblock %}
