@@ -82,6 +82,10 @@ class HtpasswdAuthenticator implements SimpleFormAuthenticatorInterface
             return $this->md5Apr($credentials, $matches[1]) === $matches[2];
         }
 
+        if (strlen($password) == 13) {
+            return $password === crypt($credentials, substr($password, 0, 2));
+        }
+
         return false;
     }
 
