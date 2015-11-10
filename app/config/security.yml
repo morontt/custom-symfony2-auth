@@ -5,12 +5,6 @@ security:
         Symfony\Component\Security\Core\User\User: plaintext
 
     providers:
-#        in_memory:
-#            memory:
-#                users:
-#                    goblin:
-#                        password: pass
-#                        roles: 'ROLE_USER'
         htpasswd:
             id: htpasswd_user_provider
 
@@ -22,10 +16,11 @@ security:
         nain:
             anonymous: ~
             http_basic: ~
-            form_login:
+            simple_form:
                 login_path: /login
                 check_path: /login_check
                 csrf_provider: security.csrf.token_manager
+                authenticator: htpasswd_authenticator
             logout:
                 path:   /logout
                 target: /

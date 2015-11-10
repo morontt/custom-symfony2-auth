@@ -15,7 +15,7 @@ class HtpasswdUserProvider implements UserProviderInterface
      */
     public function loadUserByUsername($username)
     {
-        $user = HtpassdReader::getUser($username);
+        $user = $this->getUserFromFile($username);
         if ($user !== false) {
             return new User($user['username'], $user['hash'], ['ROLE_USER']);
         }
@@ -45,5 +45,42 @@ class HtpasswdUserProvider implements UserProviderInterface
     public function supportsClass($class)
     {
         return $class === 'Symfony\Component\Security\Core\User\User';
+    }
+
+    /**
+     * @param $username
+     * @return bool|array
+     * @throws \Exception
+     */
+    protected function getUserFromFile($username)
+    {
+        $path = $this->filePath();
+        $result = false;
+        if (file_exists($path) && is_file($path)) {
+            $f = fopen($path, 'r');
+            while (($buffer = fgets($f, 512)) !== false) {
+                $matches = [];
+                if (preg_match('/^(.+):(.+)$/', $buffer, $matches) && $matches[1] === $username) {
+                    $result = [
+                        'username' => $matches[1],
+                        'hash' => $matches[2],
+                    ];
+                    break;
+                }
+            }
+            fclose($f);
+        } else {
+            throw new \Exception('file app/config/.users not found');
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return string
+     */
+    protected function filePath()
+    {
+        return realpath(__DIR__ . '/../../../../app/config/.users');
     }
 }

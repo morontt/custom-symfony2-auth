@@ -1,3 +1,5 @@
 services:
     htpasswd_user_provider:
         class: Mtt\AppBundle\Security\HtpasswdUserProvider
+    htpasswd_authenticator:
+        class: Mtt\AppBundle\Security\HtpasswdAuthenticator
