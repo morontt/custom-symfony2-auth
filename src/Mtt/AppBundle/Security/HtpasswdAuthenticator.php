@@ -88,8 +88,9 @@ class HtpasswdAuthenticator implements SimpleFormAuthenticatorInterface
     }
 
     /**
-     * Apache-specific algorithm MD5 (APR)
+     * Apache-specific algorithm APR1-MD5
      * http://www.lsdeex.ru/archives/199
+     * http://php.net/manual/ru/function.crypt.php#73619
      *
      * @param $password
      * @param $salt
@@ -142,8 +143,8 @@ class HtpasswdAuthenticator implements SimpleFormAuthenticatorInterface
         $tmp = chr(0) . chr(0) . $bin[11] . $tmp;
         $tmp = strtr(
             strrev(substr(base64_encode($tmp), 2)),
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwx  yz0123456789+/",
-            "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmn  opqrstuvwxyz"
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",
+            "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
         );
 
         return $tmp;
